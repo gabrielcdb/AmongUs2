@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using Photon.Pun;
 
-public class Control : MonoBehaviour
+public class Control : MonoBehaviourPunCallbacks, IPunObservable
 {
     public CharacterController characterController;
+    public PhotonView view;
+    public GameObject Camera;
+    public GameObject playerMesh;
     public float speed = 3;
 
     // camera and rotation
@@ -14,14 +18,41 @@ public class Control : MonoBehaviour
     public float upLimit = -50;
     public float downLimit = 50;
 
+    public int life = 100;
+
     // gravity
     private float gravity = 9.87f;
     private float verticalSpeed = 0;
 
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+        if (view.IsMine)
+        {
+            playerMesh.layer = 3;
+        }
+    }
     void Update()
     {
-        Move();
-        Rotate();
+        if (view.IsMine)
+        {
+            Move();
+            Rotate();
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out RaycastHit _hit, 15f))
+                {
+                    if (_hit.collider.CompareTag("Player"))
+                    {
+                        _hit.collider.GetComponent<Control>().TakeDamage(100);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Camera.GetComponent<Camera>().enabled = false;
+        }
     }
 
     private void Awake()
@@ -36,7 +67,7 @@ public class Control : MonoBehaviour
         float verticalRotation = Input.GetAxis("Mouse Y");
 
         transform.Rotate(0, horizontalRotation * mouseSensitivity, 0);
-
+        Camera.transform.Rotate(verticalRotation * mouseSensitivity * -1, 0, 0);
     }
 
     private void Move()
@@ -50,9 +81,22 @@ public class Control : MonoBehaviour
     
         Vector3 move = transform.forward * verticalMove + transform.right * horizontalMove;
         characterController.Move(speed * Time.deltaTime * move + gravityMove * Time.deltaTime);
+    }
 
+    public void TakeDamage(int amt)
+    {
+        life -= amt;
+    }
 
-
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(life);
+        }
+        else
+        {
+            life = (int)stream.ReceiveNext();
+        }
     }
 }
