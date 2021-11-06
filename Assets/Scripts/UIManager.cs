@@ -65,22 +65,7 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
         mediumTasks = 3.ToString();
         longTasks = 1.ToString();
         nbjoueurs = 10.ToString();
-        NbImpostor.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
-        ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = confirmEject;
-        EmergencyMeeting.GetComponent<UnityEngine.UI.Text>().text = emergencyMeeting;
-        EmergencyCooldown.GetComponent<UnityEngine.UI.Text>().text = emergencyCooldown;
-        DiscussionTime.GetComponent<UnityEngine.UI.Text>().text = discussionTime;
-        VotingTime.GetComponent<UnityEngine.UI.Text>().text = votingTime;
-        PlayerSpeed.GetComponent<UnityEngine.UI.Text>().text = playerSpeed;
-        CrewmateVision.GetComponent<UnityEngine.UI.Text>().text = crewmateVision;
-        ImpostorVision.GetComponent<UnityEngine.UI.Text>().text = impostorVision;
-        KillCooldown.GetComponent<UnityEngine.UI.Text>().text = killCooldown;
-        KillDistance.GetComponent<UnityEngine.UI.Text>().text = killDistance;
-        VisualTasks.GetComponent<UnityEngine.UI.Text>().text = visualTasks;
-        FastTasks.GetComponent<UnityEngine.UI.Text>().text = fastTasks;
-        MediumTasks.GetComponent<UnityEngine.UI.Text>().text = mediumTasks;
-        LongTasks.GetComponent<UnityEngine.UI.Text>().text = longTasks;
-        Nbjoueurs.GetComponent<UnityEngine.UI.Text>().text = nbjoueurs;
+        SetValues();
     }
     public void OpenSeeSettings()
     {
@@ -106,6 +91,11 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         caller.GetComponent<Control>().isMenuOpened = false;
+    }
+    public void Simple()
+    {
+        nbImpostor = "X";
+        ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
     }
     public void StartGame()
     {
@@ -145,7 +135,7 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private void GetValues()
     {
-        nbImpostor =  NbImpostor.GetComponent<UnityEngine.UI.Text>().text.;
+        nbImpostor =  NbImpostor.GetComponent<UnityEngine.UI.Text>().text;
         confirmEject = ConfirmEject.GetComponent<UnityEngine.UI.Text>().text;
         emergencyMeeting = EmergencyMeeting.GetComponent<UnityEngine.UI.Text>().text;
         emergencyCooldown = EmergencyCooldown.GetComponent<UnityEngine.UI.Text>().text;
@@ -162,17 +152,66 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
         longTasks = LongTasks.GetComponent<UnityEngine.UI.Text>().text;
         nbjoueurs = Nbjoueurs.GetComponent<UnityEngine.UI.Text>().text;
     }
+    private void SetValues()
+    {
+        NbImpostor.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
+        ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = confirmEject;
+        EmergencyMeeting.GetComponent<UnityEngine.UI.Text>().text = emergencyMeeting;
+        EmergencyCooldown.GetComponent<UnityEngine.UI.Text>().text = emergencyCooldown;
+        DiscussionTime.GetComponent<UnityEngine.UI.Text>().text = discussionTime;
+        VotingTime.GetComponent<UnityEngine.UI.Text>().text = votingTime;
+        PlayerSpeed.GetComponent<UnityEngine.UI.Text>().text = playerSpeed;
+        CrewmateVision.GetComponent<UnityEngine.UI.Text>().text = crewmateVision;
+        ImpostorVision.GetComponent<UnityEngine.UI.Text>().text = impostorVision;
+        KillCooldown.GetComponent<UnityEngine.UI.Text>().text = killCooldown;
+        KillDistance.GetComponent<UnityEngine.UI.Text>().text = killDistance;
+        VisualTasks.GetComponent<UnityEngine.UI.Text>().text = visualTasks;
+        FastTasks.GetComponent<UnityEngine.UI.Text>().text = fastTasks;
+        MediumTasks.GetComponent<UnityEngine.UI.Text>().text = mediumTasks;
+        LongTasks.GetComponent<UnityEngine.UI.Text>().text = longTasks;
+        Nbjoueurs.GetComponent<UnityEngine.UI.Text>().text = nbjoueurs;
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(nbImpostor);
+            stream.SendNext(confirmEject);
+            stream.SendNext(emergencyMeeting);
+            stream.SendNext(emergencyCooldown);
+            stream.SendNext(discussionTime);
+            stream.SendNext(votingTime);
+            stream.SendNext(playerSpeed);
+            stream.SendNext(crewmateVision);
+            stream.SendNext(impostorVision);
+            stream.SendNext(killCooldown);
+            stream.SendNext(killDistance);
+            stream.SendNext(visualTasks);
+            stream.SendNext(fastTasks);
+            stream.SendNext(mediumTasks);
+            stream.SendNext(longTasks);
+            stream.SendNext(nbjoueurs);
         }
         else
         {
             nbImpostor = (string)stream.ReceiveNext();
-            Reset();
+            confirmEject = (string)stream.ReceiveNext();
+            emergencyMeeting = (string)stream.ReceiveNext();
+            emergencyCooldown = (string)stream.ReceiveNext();
+            discussionTime = (string)stream.ReceiveNext();
+            votingTime = (string)stream.ReceiveNext();
+            playerSpeed = (string)stream.ReceiveNext();
+            crewmateVision = (string)stream.ReceiveNext();
+            impostorVision = (string)stream.ReceiveNext();
+            killCooldown = (string)stream.ReceiveNext();
+            killDistance = (string)stream.ReceiveNext();
+            visualTasks = (string)stream.ReceiveNext();
+            fastTasks = (string)stream.ReceiveNext();
+            mediumTasks = (string)stream.ReceiveNext();
+            longTasks = (string)stream.ReceiveNext();
+            nbjoueurs = (string)stream.ReceiveNext();
+            SetValues();
         }
     }
 }
