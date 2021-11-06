@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+
 
 public class Control : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -23,6 +25,8 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
     // gravity
     private float gravity = 9.87f;
     private float verticalSpeed = 0;
+    public float jumpHeight = 1;
+    private float upMove = 0;
 
     private void Start()
     {
@@ -31,6 +35,7 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
         {
             playerMesh.layer = 3;
         }
+        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
@@ -38,6 +43,8 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
         {
             Move();
             Rotate();
+            //upMove = 0;
+
             if (Input.GetMouseButtonDown(0))
             {
                 if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out RaycastHit _hit, 15f))
@@ -46,7 +53,16 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         _hit.collider.GetComponent<Control>().TakeDamage(100);
                     }
+                    else if (_hit.collider.CompareTag("Computer") && PhotonNetwork.IsMasterClient)
+                    {
+                        PhotonNetwork.LoadLevel("GameScene");
+                        SceneManager.LoadScene("GameScene");
+                    }
                 }
+            }
+            if (Input.GetButtonDown("Jump") && characterController.isGrounded)
+            {
+                //upMove = jumpHeight;
             }
         }
         else
@@ -79,7 +95,7 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
         else verticalSpeed -= gravity * Time.deltaTime;
         Vector3 gravityMove = new Vector3(0, verticalSpeed, 0);
     
-        Vector3 move = transform.forward * verticalMove + transform.right * horizontalMove;
+        Vector3 move = transform.forward * verticalMove + transform.right * horizontalMove + transform.up * upMove;
         characterController.Move(speed * Time.deltaTime * move + gravityMove * Time.deltaTime);
     }
 

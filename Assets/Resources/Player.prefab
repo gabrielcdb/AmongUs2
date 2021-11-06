@@ -325,6 +325,7 @@ MonoBehaviour:
   upLimit: -50
   downLimit: 50
   life: 100
+  jumpHeight: 2
 --- !u!114 &460735771903546161
 MonoBehaviour:
   m_ObjectHideFlags: 0
