@@ -19,6 +19,7 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
     public float mouseSensitivity = 2f;
     public float upLimit = -50;
     public float downLimit = 50;
+    public bool isMenuOpened = false;
 
     public int life = 100;
 
@@ -41,34 +42,49 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (view.IsMine)
         {
-            Move();
-            Rotate();
-            //upMove = 0;
-
-            if (Input.GetMouseButtonDown(0))
+            if (!isMenuOpened)
             {
-                if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out RaycastHit _hit, 15f))
+                Move();
+                Rotate();
+                //upMove = 0;
+
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (_hit.collider.CompareTag("Player"))
+                    if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out RaycastHit _hit, 15f))
                     {
-                        _hit.collider.GetComponent<Control>().TakeDamage(100);
-                    }
-                    else if (_hit.collider.CompareTag("Computer") && PhotonNetwork.IsMasterClient)
-                    {
-                        PhotonNetwork.LoadLevel("GameScene");
-                        SceneManager.LoadScene("GameScene");
+                        if (_hit.collider.CompareTag("Player"))
+                        {
+                            _hit.collider.GetComponent<Control>().TakeDamage(100);
+                        }
+                        else if (_hit.collider.CompareTag("Computer"))
+                        {
+                            GameObject menu = UnityEngine.Object.FindObjectOfType<UIManager>().gameObject;
+
+                            if (PhotonNetwork.IsMasterClient)
+                            {
+                                menu.GetComponent<UIManager>().caller = gameObject;
+                                menu.GetComponent<UIManager>().OpenModifySettings();
+                            }
+                            else
+                            {
+                                menu.GetComponent<UIManager>().caller = gameObject;
+                                menu.GetComponent<UIManager>().OpenSeeSettings();
+                            }
+                            isMenuOpened = true;
+                        }
                     }
                 }
-            }
-            if (Input.GetButtonDown("Jump") && characterController.isGrounded)
-            {
-                //upMove = jumpHeight;
+                if (Input.GetButtonDown("Jump") && characterController.isGrounded)
+                {
+                    //upMove = jumpHeight;
+                }
             }
         }
         else
         {
             Camera.GetComponent<Camera>().enabled = false;
         }
+
     }
 
     private void Awake()

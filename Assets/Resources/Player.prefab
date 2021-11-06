@@ -324,6 +324,7 @@ MonoBehaviour:
   mouseSensitivity: 5
   upLimit: -50
   downLimit: 50
+  isMenuOpened: 0
   life: 100
   jumpHeight: 2
 --- !u!114 &460735771903546161
