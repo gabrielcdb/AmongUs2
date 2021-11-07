@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void Simple()
     {
-        nbImpostor = "X";
+        confirmEject = "X";
         ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
     }
     public void StartGame()
