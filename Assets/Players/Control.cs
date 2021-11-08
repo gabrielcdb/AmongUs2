@@ -82,7 +82,7 @@ public class Control : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            Camera.GetComponent<Camera>().enabled = false;
+            Camera.SetActive(false);
         }
 
     }
