@@ -92,11 +92,7 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
         Cursor.visible = false;
         caller.GetComponent<Control>().isMenuOpened = false;
     }
-    public void Simple()
-    {
-        confirmEject = "X";
-        ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
-    }
+    
     public void StartGame()
     {
         GetValues();
@@ -169,6 +165,86 @@ public class UIManager : MonoBehaviourPunCallbacks, IPunObservable
         FastTasks.GetComponent<UnityEngine.UI.Text>().text = fastTasks;
         MediumTasks.GetComponent<UnityEngine.UI.Text>().text = mediumTasks;
         LongTasks.GetComponent<UnityEngine.UI.Text>().text = longTasks;
+        Nbjoueurs.GetComponent<UnityEngine.UI.Text>().text = nbjoueurs;
+    }
+    public void Impostor(int quantity)
+    {
+        nbImpostor = (int.Parse(nbImpostor) + quantity).ToString();
+        NbImpostor.GetComponent<UnityEngine.UI.Text>().text = nbImpostor;
+    }
+    public void ConfirmEjection()
+    {
+        confirmEject = (confirmEject == "V") ? "X" : "V";
+        ConfirmEject.GetComponent<UnityEngine.UI.Text>().text = confirmEject;
+    }
+    public void EmerMeetings(int quantity)
+    {
+        emergencyMeeting = (int.Parse(emergencyMeeting) + quantity).ToString();
+        EmergencyMeeting.GetComponent<UnityEngine.UI.Text>().text = emergencyMeeting;
+    }
+    public void EmerCooldown(int quantity)
+    {
+        emergencyCooldown = (int.Parse(emergencyCooldown) + quantity).ToString();
+        EmergencyCooldown.GetComponent<UnityEngine.UI.Text>().text = emergencyCooldown;
+    }
+    public void DiscuTime(int quantity)
+    {
+        discussionTime = (int.Parse(discussionTime) + quantity).ToString();
+        DiscussionTime.GetComponent<UnityEngine.UI.Text>().text = discussionTime;
+    }
+    public void VoteTime(int quantity)
+    {
+        votingTime = (int.Parse(votingTime) + quantity).ToString();
+        VotingTime.GetComponent<UnityEngine.UI.Text>().text = votingTime;
+    }
+    public void Playerspeed(int quantity)
+    {
+        playerSpeed = (int.Parse(playerSpeed) + quantity).ToString();
+        PlayerSpeed.GetComponent<UnityEngine.UI.Text>().text = playerSpeed;
+    }
+    public void CrewVision(int quantity)
+    {
+        crewmateVision = (int.Parse(crewmateVision) + quantity).ToString();
+        CrewmateVision.GetComponent<UnityEngine.UI.Text>().text = crewmateVision;
+    }
+    public void ImpoVision(int quantity)
+    {
+        impostorVision = (int.Parse(impostorVision) + quantity).ToString();
+        ImpostorVision.GetComponent<UnityEngine.UI.Text>().text = impostorVision;
+    }
+    public void Killcooldown(int quantity)
+    {
+        killCooldown = (int.Parse(killCooldown) + quantity).ToString();
+        KillCooldown.GetComponent<UnityEngine.UI.Text>().text = killCooldown;
+    }
+    public void Killdistance(int quantity)
+    {
+        killDistance = (int.Parse(killDistance) + quantity).ToString();
+        KillDistance.GetComponent<UnityEngine.UI.Text>().text = killDistance;
+    }
+    public void VisualTask()
+    {
+        visualTasks = (visualTasks == "V") ? "X" : "V";
+        VisualTasks.GetComponent<UnityEngine.UI.Text>().text = visualTasks;
+    }
+    public void FastTask(int quantity)
+    {
+        fastTasks = (int.Parse(fastTasks) + quantity).ToString();
+        FastTasks.GetComponent<UnityEngine.UI.Text>().text = fastTasks;
+    }
+    public void MediumTask(int quantity)
+    {
+        mediumTasks = (int.Parse(mediumTasks) + quantity).ToString();
+        MediumTasks.GetComponent<UnityEngine.UI.Text>().text = mediumTasks;
+    }
+    public void LongTask(int quantity)
+    {
+        longTasks = (int.Parse(longTasks) + quantity).ToString();
+        LongTasks.GetComponent<UnityEngine.UI.Text>().text = longTasks;
+    }
+    public void NbJoueurs(int quantity)
+    {
+        nbjoueurs = (int.Parse(nbjoueurs) + quantity).ToString();
         Nbjoueurs.GetComponent<UnityEngine.UI.Text>().text = nbjoueurs;
     }
 
